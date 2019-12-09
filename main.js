@@ -2,11 +2,7 @@ const { app, BrowserWindow, ipcMain, ipcRenderer, remote } = require('electron')
 const path = require('path')
 const appExpress = require('./config/server');
 
-appExpress.get('/form', (req, res) => {
-  res.render('sendMessage');
-})
 app.on('ready', function () {
-
   let win = new BrowserWindow({
     width: 800, height: 600, webPreferences: {
       nodeIntegration: true
@@ -19,12 +15,10 @@ app.on('ready', function () {
     }
   })
 
-  appExpress.get('/whats', (req, res) => {
-
-    let msg =req.query.msg;
+  appExpress.get('/whats', (req, res) => { 
+    let msg = req.query.msg;
     let nome = req.query.nome; 
-    let contato = req.query.contato;
-     
+    let contato = req.query.contato;     
     send(nome, contato,msg);
     res.send("sua mensagem foi enviada! por favor aguarde nosso contato");
   });
