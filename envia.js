@@ -7,7 +7,7 @@ function setTimeSend() {
         btn.click();
         sended = true;
     } else if (sended){
-        ipcRenderer.send('address's, {status: true}); 
+        ipcRenderer.send('address', {status: true}); 
         sended = false; 
     }
 }

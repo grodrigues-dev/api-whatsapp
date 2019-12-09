@@ -1,15 +1,8 @@
 const { app, BrowserWindow, ipcMain, ipcRenderer, remote } = require('electron')
 const path = require('path')
-const express = require('express');
-const ex = express();
-const bodyParser = require('body-parser'); 
+const appExpress = require('./config/server');
 
-ex.set('view engine', 'ejs' ); 
-// ex.use(bodyParser.urlencoded({extended: true})); 
-
-ex.set('views', './views');
-
-ex.get('/form', (req, res) => {
+appExpress.get('/form', (req, res) => {
   res.render('sendMessage');
 })
 app.on('ready', function () {
@@ -26,7 +19,7 @@ app.on('ready', function () {
     }
   })
 
-  ex.get('/whats', (req, res) => {
+  appExpress.get('/whats', (req, res) => {
 
     let msg =req.query.msg;
     let nome = req.query.nome; 
@@ -44,7 +37,7 @@ app.on('ready', function () {
     win.webContents.executeJavaScript(" let {ipcRenderer, remote} = require('electron'); let sended = false; function setTimeSend() { let btn = document.querySelector('._3M-N-'); let input = document.querySelector('._3u328'); if (input.textContent && !sended) { btn.click(); sended = true; } else if (sended){ ipcRenderer.send('para', {status: true}); sended = false; } } setInterval(setTimeSend, 3000);");
   }
 
-  ex.listen(3001);
+  appExpress.listen(3001);
 
 });
 
