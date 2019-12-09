@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain, ipcRenderer, remote } = require('electron')
 const path = require('path')
 const appExpress = require('./config/server');
+const mongoose = require('mongoose');
+const Mensagem = mongoose.model('Mensagem'); 
 
 app.on('ready', function () {
   let win = new BrowserWindow({
@@ -18,7 +20,9 @@ app.on('ready', function () {
   appExpress.get('/whats', (req, res) => { 
     let msg = req.query.msg;
     let nome = req.query.nome; 
-    let contato = req.query.contato;     
+    let contato = req.query.contato;
+    console.log(req.query);
+    Mensagem.create(req.query);       
     send(nome, contato,msg);
     res.send("sua mensagem foi enviada! por favor aguarde nosso contato");
   });

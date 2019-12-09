@@ -1,6 +1,6 @@
-module.exports = app => {
+module.exports = (app) => {
 
-    app.get('/form', (req, res) => {
+    app.get('/', (req, res) => {
         res.render('sendMessage');
     })
 
