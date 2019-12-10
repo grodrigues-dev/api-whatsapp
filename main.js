@@ -3,6 +3,7 @@ const path = require('path')
 const appExpress = require('./config/server');
 const mongoose = require('mongoose');
 const Mensagem = mongoose.model('Mensagem'); 
+require('dotenv/config')
 
 app.on('ready', function () {
   let win = new BrowserWindow({
@@ -28,7 +29,7 @@ app.on('ready', function () {
   });
 
   function send(nome, contato, msg) {
-    let telefone = "5511988991561";
+    let telefone = process.env.FONENUMBER;
     let url = `https://web.whatsapp.com/send?phone=${telefone}&text=Nome: ${nome} %0aTelefone: ${contato}  %0a${msg}`;
     win.loadURL( url ,
       { userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36' });
