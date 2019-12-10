@@ -18,12 +18,12 @@ app.on('ready', function () {
     }
   })
 
-  appExpress.get('/whats', (req, res) => { 
-    let msg = req.query.msg;
-    let nome = req.query.nome; 
-    let contato = req.query.contato;
-    console.log(req.query);
-    Mensagem.create(req.query);       
+  appExpress.post('/whats', (req, res) => { 
+    console.log(req.body);
+    let msg = req.body.msg;
+    let nome = req.body.nome; 
+    let contato = req.body.contato;
+    Mensagem.create(req.body);       
     send(nome, contato,msg);
     res.send("sua mensagem foi enviada! por favor aguarde nosso contato");
   });
@@ -33,7 +33,7 @@ app.on('ready', function () {
     let url = `https://web.whatsapp.com/send?phone=${telefone}&text=Nome: ${nome} %0aTelefone: ${contato}  %0a${msg}`;
     win.loadURL( url ,
       { userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36' });
-    win.webContents.executeJavaScript(" let {ipcRenderer, remote} = require('electron'); let sended = false; function setTimeSend() { let btn = document.querySelector('._3M-N-'); let input = document.querySelector('._3u328'); if (input.textContent && !sended) { btn.click(); sended = true; } else if (sended){ ipcRenderer.send('para', {status: true}); sended = false; } } setInterval(setTimeSend, 3000);");
+    win.webContents.executeJavaScript(`let {ipcRenderer, remote} = require('electron'); let sended = false; function setTimeSend() { let btn = document.querySelector('._3M-N-'); let input = document.querySelector('._3u328'); if (input.textContent && !sended) { btn.click(); sended = true; } else if (sended){ ipcRenderer.send('para', {status: true}); sended = false; } } setInterval(setTimeSend, 3000);`);
   }
 
   appExpress.listen(3001);
